@@ -1,0 +1,18 @@
+{
+  "name": "IMGUR Screenshots",
+  "description": "Send a screenshot to IMGUR.",
+  "developer": {
+    "name": "Adrian Crespo, Giovanny Gongora"
+  },
+  "package_path": "package.zip",
+  "role": "addon",
+  "type": "certified",
+  "customizations": [{
+    "filter": "system.gaiamobile.org",
+    "css": [],
+    "scripts": ["imgur.js"]
+  }],
+  "icons": {
+    "128": "/style/icons/128.png"
+  }
+}
