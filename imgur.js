@@ -43,6 +43,7 @@
             switch (evt.type) {
                 case 'mozChromeEvent':
                     if (evt.detail.type === 'take-screenshot-success') {
+                        console.log("There is an screenshot available.");
                         this.handleTakeScreenshotSuccess(evt.detail.file);
                     } else if (evt.detail.type === 'take-screenshot-error') {
                         this._notify('screenshotFailed', evt.detail.error);
@@ -50,7 +51,7 @@
                     break;
 
                 default:
-                    //console.debug('Unhandled event: ' + evt.type);
+                    console.debug('Unhandled event: ' + evt.type);
                     break;
             }
         },
@@ -100,7 +101,7 @@
          * @memberof Screenshot.prototype
          */
         _notify: function notify(titleid, body, bodyid, onClick) {
-            console.log("A notification would be send: "+body);
+            console.log("A notification would be send: "+titleid);
             var title = navigator.mozL10n.get(titleid) || titleid;
             body = body || navigator.mozL10n.get(bodyid);
             var notification = new window.Notification(title, {
