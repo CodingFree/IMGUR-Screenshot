@@ -1,7 +1,35 @@
 (function () {
     console.log("IMGUR Running");
 
-    var uploader = {
+    function uploader() {
+        this._started = false;
+    }
+    uploader.prototype = {
+        /**
+         * Start to handle screenshot events.
+         * @memberof Screenshot.prototype
+         */
+        start: function () {
+            if (this._started) {
+                throw 'Instance should not be start()\'ed twice.';
+            }
+            this._started = true;
+
+            window.addEventListener('mozChromeEvent', this);
+        },
+
+        /**
+         * Stop handling screenshot events.
+         * @memberof Screenshot.prototype
+         */
+        stop: function () {
+            if (!this._started) {
+                throw 'Instance was never start()\'ed but stop() is called.';
+            }
+            this._started = false;
+
+            window.removeEventListener('mozChromeEvent', this);
+        },
 
         /**
          * Handle screenshot events.
@@ -52,11 +80,12 @@
                     saveRequest.onerror = (function ss_onerror() {
                         this._notify('screenshotFailed', saveRequest.error.name);
                     }).bind(this);
-                });
+                });**/
             } catch (e) {
                 console.log('exception in screenshot handler', e);
                 this._notify('screenshotFailed', e.toString());
-            }**/
+            }
+
         },
         /**
          * Display a screenshot success or failure notification.
@@ -88,5 +117,4 @@
         }
     };
 
-    window.addEventListener("mozChromeEvent", uploader, false);
 }());
