@@ -19,7 +19,7 @@
             }
             this._started = true;
           
-            window.addEventListener('mozChromeEvent', this.handleEvent);
+            window.addEventListener('mozChromeEvent', this);
             this._notify('Hello screnshot');
         },
 
