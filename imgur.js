@@ -63,6 +63,7 @@
          */
         handleTakeScreenshotSuccess: function (file) {
             try {
+                var self = this;
                 var fd = new FormData();
                 fd.append("image", file);
                 var xhr = new XMLHttpRequest();
@@ -72,7 +73,7 @@
                   var data = JSON.parse(xhr.responseText).data; 
                   var imgurURL = data.link; 
                   console.log(imgurURL);
-                  this.notify("Image sent to "+imgurURL);
+                    self.notify('Screenshot uploaded: ', imgurURL, null, true);
                 }
                 xhr.send(fd);
             } catch (e) {
