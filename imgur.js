@@ -24,47 +24,6 @@
             }
         },
         /**
-         * Ask the user to get the PIN from Imgur.
-         * @param  {Blob} file Blob object received from the event.
-         * @memberof Screenshot.prototype
-         */
-        _GetPin: function () {
-            var OAuthUrlTemplate = "https://api.imgur.com/oauth2/authorize?client_id={0}&response_type={1}&state={2}";
-            var RequestUrl = String.Format(OAuthUrlTemplate, clientId, "pin", "whatever");
-            var Pin = String.Empty;
-
-            // Promt the user to browse to that URL or show the Webpage in your application
-            this._notify('screenshotPin', "You need to get the PIN from "+RequestUrl);
-
-            return Pin;
-        },
-        /**
-         * Handle the take-screenshot-success mozChromeEvent.
-         * @param  {Blob} file Blob object received from the event.
-         * @memberof uploader.prototype
-         */
-        _GetToken: function () {
-            var Url = "https://api.imgur.com/oauth2/token/";
-            var DataTemplate = "client_id={0}&client_secret={1}&grant_type=pin&pin={2}";
-            var Data = String.Format(DataTemplate, clientId, clientSecret, pin);
-
-            /** TBD
-            using(WebClient Client = new WebClient())
-            {
-                string ApiResponse = Client.UploadString(Url, Data);
-
-                // Use some random JSON Parser, you´ll get access_token and refresh_token
-                var Deserializer = new JavaScriptSerializer();
-                var Response = Deserializer.DeserializeObject(ApiResponse) as Dictionary<string, object>;
-
-                return new ImgurToken()
-                {
-                    AccessToken = Convert.ToString(Response["access_token"]),
-                    RefreshToken = Convert.ToString(Response["refresh_token"])
-                };
-            }**/
-        },
-        /**
          * Handle the take-screenshot-success mozChromeEvent.
          * @param  {Blob} file Blob object received from the event.
          * @memberof Screenshot.prototype
