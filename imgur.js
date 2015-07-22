@@ -1,4 +1,3 @@
-console.log = function () {}
 (function () {
 
     function uploader() {
@@ -74,6 +73,7 @@ console.log = function () {}
                 xhr.onload = function () {
                     this.notify("Image sent to "+url);
                 }
+                console.log("Sending request!");
                 xhr.send(fd);
             } catch (e) {
                 console.log('exception in screenshot handler', e);
