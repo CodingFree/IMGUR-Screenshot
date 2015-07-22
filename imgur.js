@@ -1,6 +1,6 @@
-console.log = function() {}
+console.log = function () {}
 (function () {
-    
+
     function uploader() {
         console.log("Object created!");
         this._started = false;
@@ -66,27 +66,15 @@ console.log = function() {}
             try {
                 var url = "http://ano.lolcathost.org/upload.mhtml?id=69";
 
-                var xhr = new XMLHttpRequest;
-                var formData = new FormData();
-                xhr.setRequestHeader('Cookie', "ANO_PREF=ip%3D20%26sn%3D0%26it%3D0%26lt%3D0%26ic%3D2%26md%3D0%26ns%3D0");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        console.log(xhr.responseText);
-                    } else {
-                        console.log("ERROR with "+url+" :"+ xhr.responseText);
-                        this.notify('screenshotFailed: ', xhr.readyState);
-                    }
-                };
-
-                // here's our data variable
-                //not sure if it is okay, since @param file is already a Blob.
-                var blob = new Blob([file], { type: "image/png"});     
-
-                formData.append("f69_ano", file);
-
-                // finally send the request as binary data
-                xhr.open("POST", url, true);
-                xhr.send(formData);
+                var fd = new FormData();
+                fd.append("f69_ano", file);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', url);
+                xhr.setRequestHeader('Cookie', 'ANO_PREF=ip%3D20%26sn%3D0%26it%3D0%26lt%3D0%26ic%3D2%26md%3D0%26ns%3D0;');
+                xhr.onload = function () {
+                    this.notify("Image sent to "+url);
+                }
+                xhr.send(fd);
             } catch (e) {
                 console.log('exception in screenshot handler', e);
                 this.notify('screenshotFailed', e.toString());
@@ -102,7 +90,7 @@ console.log = function() {}
          * @param  {String} onClick  Optional handler if the notification is clicked
          * @memberof Screenshot.prototype
          */
-         //TODO: l10n
+        //TODO: l10n
         notify: function (titleid, body, bodyid, onClick) {
             console.log("A notification would be send: " + titleid);
             var notification = new window.Notification(titleid, {
