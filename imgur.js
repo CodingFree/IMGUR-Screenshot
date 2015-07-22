@@ -76,6 +76,9 @@
                   var imgurURL = data.link; 
                   console.log(imgurURL);
                     self.notify('Screenshot uploaded: ', imgurURL, null, true);
+
+                    var copyEvent = new ClipboardEvent('copy', { dataType: 'text/plain', data: imgurURL } );
+                    window.dispatchEvent(copyEvent);
                 }
                 xhr.send(fd);
             } catch (e) {
