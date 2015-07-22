@@ -1,8 +1,11 @@
 (function () {
-    console.log("IMGUR Running");
+    console.log("Lets starta!");
+    var uploader = Object.create(uploader);
 
     function uploader() {
+        console.log("Object created!");
         this._started = false;
+        this.start();
     }
     uploader.prototype = {
         /**
@@ -10,12 +13,14 @@
          * @memberof Screenshot.prototype
          */
         start: function () {
+            console.log("IMGUR Running");
             if (this._started) {
                 throw 'Instance should not be start()\'ed twice.';
             }
             this._started = true;
-
-            window.addEventListener('mozChromeEvent', this);
+          
+            window.addEventListener('mozChromeEvent', this.handleEvent);
+            this._notify('Hello screnshot');
         },
 
         /**
@@ -28,7 +33,7 @@
             }
             this._started = false;
 
-            window.removeEventListener('mozChromeEvent', this);
+            window.removeEventListener('mozChromeEvent', this.handleEvent);
         },
 
         /**
@@ -97,6 +102,7 @@
          * @memberof Screenshot.prototype
          */
         _notify: function notify(titleid, body, bodyid, onClick) {
+            console.log("A notification would be send: "+body);
             var title = navigator.mozL10n.get(titleid) || titleid;
             body = body || navigator.mozL10n.get(bodyid);
             var notification = new window.Notification(title, {
@@ -117,4 +123,5 @@
         }
     };
 
+  
 }());
