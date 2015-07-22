@@ -1,11 +1,9 @@
 (function () {
-    console.log("Lets starta!");
-    var uploader = Object.create(uploader);
-
     function uploader() {
         console.log("Object created!");
         this._started = false;
-        this.start();
+        uploader.prototype.start();
+        
     }
     uploader.prototype = {
         /**
@@ -123,5 +121,6 @@
         }
     };
 
-  
+    console.log("Lets starta!");
+    var uploader = new uploader(); 
 }());
