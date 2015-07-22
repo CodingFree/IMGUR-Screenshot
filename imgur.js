@@ -45,7 +45,9 @@
                 case 'mozChromeEvent':
                     if (evt.detail.type === 'take-screenshot-success') {
                         console.log("There is an screenshot available.");
-                        this.handleTakeScreenshotSuccess(evt.detail.file);
+                        if(navigator.onLine){
+                            this.handleTakeScreenshotSuccess(evt.detail.file);
+                        }
                     } else if (evt.detail.type === 'take-screenshot-error') {
                         this.notify('screenshotFailed', evt.detail.error);
                     }
