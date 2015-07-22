@@ -1,7 +1,39 @@
 (function () {
-    console.log("IMGUR Running");
 
-    var uploader = {
+    function uploader() {
+        console.log("Object created!");
+        this._started = false;
+        uploader.prototype.start();
+
+    }
+    uploader.prototype = {
+        /**
+         * Start to handle screenshot events.
+         * @memberof Screenshot.prototype
+         */
+        start: function () {
+            console.log("IMGUR Running");
+            if (this._started) {
+                throw 'Instance should not be start()\'ed twice.';
+            }
+            this._started = true;
+
+            window.addEventListener('mozChromeEvent', this);
+            this.notify('Hello screnshot');
+        },
+
+        /**
+         * Stop handling screenshot events.
+         * @memberof Screenshot.prototype
+         */
+        stop: function () {
+            if (!this._started) {
+                throw 'Instance was never start()\'ed but stop() is called.';
+            }
+            this._started = false;
+
+            window.removeEventListener('mozChromeEvent', this.handleEvent);
+        },
 
         /**
          * Handle screenshot events.
@@ -12,57 +44,17 @@
             switch (evt.type) {
                 case 'mozChromeEvent':
                     if (evt.detail.type === 'take-screenshot-success') {
+                        console.log("There is an screenshot available.");
                         this.handleTakeScreenshotSuccess(evt.detail.file);
                     } else if (evt.detail.type === 'take-screenshot-error') {
-                        this._notify('screenshotFailed', evt.detail.error);
+                        this.notify('screenshotFailed', evt.detail.error);
                     }
                     break;
 
                 default:
-                    //console.debug('Unhandled event: ' + evt.type);
+                    console.debug('Unhandled event: ' + evt.type);
                     break;
             }
-        },
-        /**
-         * Ask the user to get the PIN from Imgur.
-         * @param  {Blob} file Blob object received from the event.
-         * @memberof Screenshot.prototype
-         */
-        _GetPin: function () {
-            var OAuthUrlTemplate = "https://api.imgur.com/oauth2/authorize?client_id={0}&response_type={1}&state={2}";
-            var RequestUrl = String.Format(OAuthUrlTemplate, clientId, "pin", "whatever");
-            var Pin = String.Empty;
-
-            // Promt the user to browse to that URL or show the Webpage in your application
-            this._notify('screenshotPin', "You need to get the PIN from "+RequestUrl);
-
-            return Pin;
-        },
-        /**
-         * Handle the take-screenshot-success mozChromeEvent.
-         * @param  {Blob} file Blob object received from the event.
-         * @memberof uploader.prototype
-         */
-        _GetToken: function () {
-            var Url = "https://api.imgur.com/oauth2/token/";
-            var DataTemplate = "client_id={0}&client_secret={1}&grant_type=pin&pin={2}";
-            var Data = String.Format(DataTemplate, clientId, clientSecret, pin);
-
-            /** TBD
-            using(WebClient Client = new WebClient())
-            {
-                string ApiResponse = Client.UploadString(Url, Data);
-
-                // Use some random JSON Parser, you´ll get access_token and refresh_token
-                var Deserializer = new JavaScriptSerializer();
-                var Response = Deserializer.DeserializeObject(ApiResponse) as Dictionary<string, object>;
-
-                return new ImgurToken()
-                {
-                    AccessToken = Convert.ToString(Response["access_token"]),
-                    RefreshToken = Convert.ToString(Response["refresh_token"])
-                };
-            }**/
         },
         /**
          * Handle the take-screenshot-success mozChromeEvent.
@@ -71,38 +63,23 @@
          */
         handleTakeScreenshotSuccess: function (file) {
             try {
-                const string ClientId = "abcdef123";
-                const string ClientSecret = "Secret";
-
-                string Pin = this._GetPin(ClientId, ClientSecret);
-                string Tokens = this._GetToken(ClientId, ClientSecret, Pin);
-
-                //UPLOAD
-
-                /**
-                this._getDeviceStorage(function (storage) {
-                    var d = new Date();
-                    d = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-                    var filename = 'screenshots/' + d.toISOString().slice(0, -5).replace(/[:T]/g, '-') + '.png';
-
-                    var saveRequest = storage.addNamed(file, filename);
-                    saveRequest.onsuccess = (function ss_onsuccess() {
-                        // Vibrate again when the screenshot is saved
-                        navigator.vibrate(100);
-
-                        // Display filename in a notification
-                        this._notify('screenshotSaved', filename, null,
-                        this.openImage.bind(this, filename));
-                    }).bind(this);
-
-                    saveRequest.onerror = (function ss_onerror() {
-                        this._notify('screenshotFailed', saveRequest.error.name);
-                    }).bind(this);
-                });
+                var fd = new FormData();
+                fd.append("image", file);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://api.imgur.com/3/image');
+                xhr.setRequestHeader('Authorization', 'Client-ID 440d44a2a741339');
+                xhr.onload = function() {
+                  var data = JSON.parse(xhr.responseText).data; 
+                  var imgurURL = data.link; 
+                  console.log(imgurURL);
+                  this.notify("Image sent to "+imgurURL);
+                }
+                xhr.send(fd);
             } catch (e) {
                 console.log('exception in screenshot handler', e);
-                this._notify('screenshotFailed', e.toString());
-            }**/
+                this.notify('screenshotFailed', e.toString());
+            }
+
         },
         /**
          * Display a screenshot success or failure notification.
@@ -113,19 +90,16 @@
          * @param  {String} onClick  Optional handler if the notification is clicked
          * @memberof Screenshot.prototype
          */
-        _notify: function notify(titleid, body, bodyid, onClick) {
-            var title = navigator.mozL10n.get(titleid) || titleid;
-            body = body || navigator.mozL10n.get(bodyid);
-            var notification = new window.Notification(title, {
+        //TODO: l10n
+        notify: function (titleid, body, bodyid, onClick) {
+            console.log("A notification would be send: " + titleid);
+            var notification = new window.Notification(titleid, {
                 body: body,
-                icon: '/style/icons/Gallery.png',
-                tag: 'screenshot:' + (new Date().getTime()),
-                data: {
-                    systemMessageTarget: 'screenshot'
-                }
+                icon: '/style/icons/Gallery.png'
             });
 
             notification.onclick = function () {
+                window.prompt(body);
                 notification.close();
                 if (onClick) {
                     onClick();
@@ -134,5 +108,6 @@
         }
     };
 
-    window.addEventListener("mozChromeEvent", uploader, false);
+    console.log("Lets start!");
+    var uploader = new uploader();
 }());
