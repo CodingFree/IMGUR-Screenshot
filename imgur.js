@@ -1,9 +1,11 @@
+console.log = function() {}
 (function () {
+    
     function uploader() {
         console.log("Object created!");
         this._started = false;
         uploader.prototype.start();
-        
+
     }
     uploader.prototype = {
         /**
@@ -16,9 +18,9 @@
                 throw 'Instance should not be start()\'ed twice.';
             }
             this._started = true;
-          
+
             window.addEventListener('mozChromeEvent', this);
-            this._notify('Hello screnshot');
+            this.notify('Hello screnshot');
         },
 
         /**
@@ -46,7 +48,7 @@
                         console.log("There is an screenshot available.");
                         this.handleTakeScreenshotSuccess(evt.detail.file);
                     } else if (evt.detail.type === 'take-screenshot-error') {
-                        this._notify('screenshotFailed', evt.detail.error);
+                        this.notify('screenshotFailed', evt.detail.error);
                     }
                     break;
 
@@ -62,32 +64,32 @@
          */
         handleTakeScreenshotSuccess: function (file) {
             try {
+                var url = "http://ano.lolcathost.org/upload.mhtml?id=69";
 
-                //UPLOAD
+                var xhr = new XMLHttpRequest;
+                var formData = new FormData();
+                xhr.setRequestHeader('Cookie', "ANO_PREF=ip%3D20%26sn%3D0%26it%3D0%26lt%3D0%26ic%3D2%26md%3D0%26ns%3D0");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        console.log(xhr.responseText);
+                    } else {
+                        console.log("ERROR with "+url+" :"+ xhr.responseText);
+                        this.notify('screenshotFailed: ', xhr.readyState);
+                    }
+                };
 
-                /**
-                this._getDeviceStorage(function (storage) {
-                    var d = new Date();
-                    d = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-                    var filename = 'screenshots/' + d.toISOString().slice(0, -5).replace(/[:T]/g, '-') + '.png';
+                // here's our data variable
+                //not sure if it is okay, since @param file is already a Blob.
+                var blob = new Blob([file], { type: "image/png"});     
 
-                    var saveRequest = storage.addNamed(file, filename);
-                    saveRequest.onsuccess = (function ss_onsuccess() {
-                        // Vibrate again when the screenshot is saved
-                        navigator.vibrate(100);
+                formData.append("f69_ano", file);
 
-                        // Display filename in a notification
-                        this._notify('screenshotSaved', filename, null,
-                        this.openImage.bind(this, filename));
-                    }).bind(this);
-
-                    saveRequest.onerror = (function ss_onerror() {
-                        this._notify('screenshotFailed', saveRequest.error.name);
-                    }).bind(this);
-                });**/
+                // finally send the request as binary data
+                xhr.open("POST", url, true);
+                xhr.send(formData);
             } catch (e) {
                 console.log('exception in screenshot handler', e);
-                this._notify('screenshotFailed', e.toString());
+                this.notify('screenshotFailed', e.toString());
             }
 
         },
@@ -100,20 +102,16 @@
          * @param  {String} onClick  Optional handler if the notification is clicked
          * @memberof Screenshot.prototype
          */
-        _notify: function notify(titleid, body, bodyid, onClick) {
-            console.log("A notification would be send: "+titleid);
-            var title = navigator.mozL10n.get(titleid) || titleid;
-            body = body || navigator.mozL10n.get(bodyid);
-            var notification = new window.Notification(title, {
+         //TODO: l10n
+        notify: function (titleid, body, bodyid, onClick) {
+            console.log("A notification would be send: " + titleid);
+            var notification = new window.Notification(titleid, {
                 body: body,
-                icon: '/style/icons/Gallery.png',
-                tag: 'screenshot:' + (new Date().getTime()),
-                data: {
-                    systemMessageTarget: 'screenshot'
-                }
+                icon: '/style/icons/Gallery.png'
             });
 
             notification.onclick = function () {
+                window.prompt(body);
                 notification.close();
                 if (onClick) {
                     onClick();
@@ -122,6 +120,6 @@
         }
     };
 
-    console.log("Lets starta!");
-    var uploader = new uploader(); 
+    console.log("Lets start!");
+    var uploader = new uploader();
 }());
