@@ -1,7 +1,7 @@
 (function() {
-  alert("LOL");
+console.log("IMGUR Running");
 
-window.addEventListener('volumeup+sleep', takeScreenshot;
+window.addEventListener('volumeup', takeScreenshot);
 
 function sendChromeEvent(detail) {
   var contentDetail = Components.utils.createObjectIn(tab);
@@ -21,7 +21,7 @@ function sendEvent(type, details) {
 }
 
 function takeScreenshot() {
-  alert("LOL2");
+  console.log("Taking a screenshot...");
 
   var canvas = document.createElementNS('http://www.w3.org/1999/xhtml',
                                             'canvas');
@@ -80,4 +80,4 @@ Workflow.prototype = {
 }
 window.workflow = new Workflow();
 
-})
+}());
