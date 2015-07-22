@@ -30,11 +30,6 @@
          */
         handleTakeScreenshotSuccess: function (file) {
             try {
-                const string ClientId = "abcdef123";
-                const string ClientSecret = "Secret";
-
-                string Pin = this._GetPin(ClientId, ClientSecret);
-                string Tokens = this._GetToken(ClientId, ClientSecret, Pin);
 
                 //UPLOAD
 
