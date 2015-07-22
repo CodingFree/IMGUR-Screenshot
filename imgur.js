@@ -99,10 +99,15 @@
             });
 
             notification.onclick = function () {
-                window.prompt(body);
                 notification.close();
                 if (onClick) {
-                    onClick();
+                    new MozActivity({
+                      name: "view",
+                      data: {
+                        type: "url", 
+                        url: body
+                      }
+                    });
                 }
             };
         }
