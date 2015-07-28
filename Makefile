@@ -1,2 +1,2 @@
 package:
-	zip package.zip cracked.js manifest.webapp -r style
+	zip package.zip -r imgur.js manifest.webapp style
