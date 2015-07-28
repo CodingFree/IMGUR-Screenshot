@@ -75,10 +75,9 @@
                   var imgurURL = data.link; 
                   console.log(imgurURL);
                     self.notify('Screenshot uploaded: ', imgurURL, null, true);
-
-                    const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper);
-                    gClipboardHelper.copyString(imgurURL);
-                }
+                    //const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper);
+                    //gClipboardHelper.copyString(imgurURL);
+                };
                 xhr.send(fd);
             } catch (e) {
                 console.log('exception in screenshot handler', e);
