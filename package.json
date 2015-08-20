@@ -1,0 +1,25 @@
+{
+  "name": "IMGUR-Screenshot",
+  "version": "1.0.1",
+  "description": "Send a screenshot to IMGUR.",
+  "main": "imgur.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodingFree/IMGUR-Screenshot"
+  },
+  "keywords": [
+    "imgur",
+    "addon",
+    "firefoxos",
+    "firefox",
+    "os"
+  ],
+  "author": "Adrian Crespo",
+  "license": " MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/CodingFree/IMGUR-Screenshot/issues"
+  }
+}
