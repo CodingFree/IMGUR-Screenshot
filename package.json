@@ -21,5 +21,9 @@
   "license": " MPL-2.0",
   "bugs": {
     "url": "https://github.com/CodingFree/IMGUR-Screenshot/issues"
+  }, "devDependencies": {
+    "mocha": "2.2.x",
+    "chai": "3.2.x",
+    "sinon": "1.16.x"
   }
 }
