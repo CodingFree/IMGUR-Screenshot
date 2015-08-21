@@ -2,5 +2,15 @@
   "name" : "IMGUR Screenshots",
   "description": "Send a screenshot to IMGUR.",
   "developer": { "name": "Adrian Crespo, Giovanny Gongora" },
-  "package_path": "package_v2.zip"
+  "package_path": "package_v2.zip",
+  "icons": {
+    "512": "/style/icons/512.png",
+    "256": "/style/icons/256.png",
+    "128": "/style/icons/128.png",
+    "90": "/style/icons/90.png",
+    "64": "/style/icons/64.png",
+    "48": "/style/icons/48.png",
+    "32": "/style/icons/32.png",
+    "16": "/style/icons/16.png"
+  }
 }
