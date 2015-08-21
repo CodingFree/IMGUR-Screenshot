@@ -12,3 +12,6 @@ However there are some issues:
   - Asking for a PIN may not be a good idea, since there should by an input somewhere to answer.
   - Could be used a XHR to get the PIN automatically?
   - We need a real ClientId and ClientSecret: https://api.imgur.com/oauth2/addclient
+
+#LICENSE
+Mozilla Public License Version 2.0
