@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Language" content="en">
+        <meta name="viewport" content="width=1020">
+        <title>CodingFree/IMGUR-Screenshot</title>
+        <meta name="hostname" content="codingfree.com">
+        <meta name="user-login" content="CodingFree">
+        <link rel="icon" sizes="any" mask="" href="https://assets-cdn.github.com/pinned-octocat.svg">
+        <meta name="theme-color" content="#4078c0">
+        <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+        <meta name="description" content="Contribute to IMGUR-Screenshot development by creating an account on GitHub.">
+    </head>
+    
+    <body>
+        <article class="markdown-body entry-content" itemprop="mainContentOfPage">
+            <h1><a id="user-content-imgur-uploader" class="anchor" href="#imgur-uploader" aria-hidden="true"><span class="octicon octicon-link"></span></a>IMGUR UPLOADER</h1>
+
+            <p>This addon was intented to upload any screenshot from Firefox OS to IMGUR. How is it supposed to work?</p>
+            <ul>
+                <li>Listen for any mozChromeEvent, until its type is "take-screenshot-success".</li>
+                <li>Then ask the user for a PIN: a clickable notification is displayed. If it is clicked, it should open the RequestUrl.</li>
+                <li>After that, get a token.</li>
+                <li>Use both things to upload the file, which details are in evt.detail.file.</li>
+            </ul>
+            <p>However there are some issues:</p>
+            <ul>
+                <li>Obviously, String.Format doesn't work. It is from C#, but I tried to make it clearer.</li>
+                <li>Asking for a PIN may not be a good idea, since there should by an input somewhere to answer.</li>
+                <li>Could be used a XHR to get the PIN automatically?</li>
+                <li>We need a real ClientId and ClientSecret: <a href="https://api.imgur.com/oauth2/addclient">https://api.imgur.com/oauth2/addclient</a>
+                </li>
+            </ul>
+            
+<h1><a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>LICENSE</h1>
+
+            <p>Mozilla Public License Version 2.0</p>
+        </article>
+    </body>
+
+</html>
