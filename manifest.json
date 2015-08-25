@@ -3,9 +3,7 @@
   "version": "2.0",
   "name": "IMGUR Screenshots",
   "description": "Send a screenshot to IMGUR.",
-  "developer": {
-    "name": "Adrian Crespo, Giovanny Gongora"
-  },
+  "author": "Adrian Crespo, Giovanny Gongora",
   "role": "addon",
   "type": "certified",
   "content_scripts": [{
